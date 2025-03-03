@@ -1,2 +1,2 @@
-Blog of MusicLang
+My Music experiments
 ================
