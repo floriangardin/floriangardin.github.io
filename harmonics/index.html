@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.16-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Muzic">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<title>Exploring the Harmonics Musical Language</title>
+</head>
+<body>
+
+<div class="container">
+	<header role="banner">
+		<h1>Exploring the Harmonics Musical Language</h1>
+	</header>
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+			<section itemprop="entry-text">
+				<h2 id="introduction">Introduction to Harmonics</h2>
+				<p>The Harmonics musical language, is a powerful yet intuitive domain-specific language designed for musicians and composers. It simplifies the process of composing music by providing clear, concise syntax for harmony, melody, and accompaniment.</p>
+				<p>It is designed to be:</p>
+                <ul>
+					<li>🎵 Easy to learn and use for musicians</li>
+					<li>🎹 Rich expressive capabilities for detailed musical compositions</li>
+					<li>🤖 Highly compatible with Large Language Models (LLMs) to enable a compositional assistance</li>
+                    <li>🎼 Able to output both MIDI and MusicXML files.</li>
+				</ul>
+				<p>This article will allow us to explore the core language and its capabilities.</p>
+			</section>
+            
+            <section>
+                <h2 id="technical-overview">Composing a Chopin Nocturne with Harmonics</h2>
+                <p>Let's first look at what Harmonics code looks like in practice. The following example demonstrates a Chopin-style nocturne composition, showcasing the language's syntax and musical expressiveness. After examining this example, we'll explore the core features and technical aspects of the language in more detail.</p>
+                <pre><code class="language-ern">Composer: Frédéric Chopin (Style)
+Piece: Nocturne in E minor
+Time Signature: 4/4
+Tempo: 72
+
+// We use GM piano everywhere
+Instrument: V1=1, B=1, T=1, A=1, S=1
+
+// Define an arpeggiated accompaniment pattern
+arpeggio_basic = b1 1 b1.5 3 b1.75 4 b2 3 b2.5 1 b3 3 b3.5 4 b3.75 3 b4 1 b4.5 3 b4.75 4
+arpeggio_var1 = b1 1 b1.25 3 b1.5 4 b1.75 3 b2 1 b2.5 3 b2.75 4 b3 1 b3.25 3 b3.5 4 b3.75 3 b4 1 b4.5 3 b4.75 4
+arpeggio_var2 = b1 1 b1.5 3 b2 4 b2.5 3 b3 1 b3.5 4 b4 3 b4.5 1
+block_chords = b1 134 b2 134 b3 134 b4 134
+
+e1 b1 tempo(72) b1 velocity(mp)
+
+// Main Theme - First measure
+m1 b1 e: i b3 V7 ||
+mel1 V1 b1 B4 b2 E5 b2.5 F#5 b3 G5 b3.25 A5 b3.5 B5 b4 G5
+acc1 @arpeggio_basic
+
+m2 b1 i b3 VI b4 ii%7 ||
+mel2 V1 b1 E5 b1.5 F#5 b2 G5 b2.5 F#5 b3 C6 b3.5 B5 b4 A5
+acc2 @arpeggio_basic
+
+m3 b1 V b3 i6 ||
+mel3 V1 b1 B5 b1.5 A5 b2 F#5 b2.5 D#5 b3 G5 b3.5 F#5 b4 E5
+acc3 @arpeggio_var1
+
+m4 b1 iv b3 V7 b4 i ||
+mel4 V1 b1 A5 b1.5 G5 b2 F#5 b2.5 E5 b3 B5 b3.5 D5 b4 E5
+acc4 @arpeggio_var2
+
+e5 b1 start_crescendo(p) b4 end_crescendo(ff)
+m5 b1 III b3 VI ||
+mel5 V1 b1 G5 b1.5 B5 b2 D6 b2.5 B5 b3 C6 b3.5 B5 b4 A5
+acc5 @block_chords
+
+</code></pre>
+            <p>Wow, it looks complex, let's break it down.</p>
+            
+            <h3>Understanding the Building Blocks</h3>
+            
+            <p>Harmonics uses a few key prefixes that organize different musical elements:</p>
+            
+            <ul>
+                <li><strong>e</strong> (events) - Controls performance parameters like tempo changes, dynamics, crescendos, and other expressive elements. For example, <code>e1 b1 tempo(72)</code> sets the tempo to 72 BPM at the first beat of measure 1.</li>
+                <li><strong>m</strong> (measures) - Defines the harmonic progression using Roman numeral notation. For example, <code>m1 b1 e: i b3 V7</code> indicates that measure 1 starts with an E minor chord (i) and changes to a V7 chord at beat 3.</li>
+                <li><strong>mel</strong> (melody) - Specifies the melodic line for a particular voice. For example, <code>mel1 V1 b1 B4 b2 E5</code> means the first melody line uses Voice 1 to play B4 at beat 1 and E5 at beat 2.</li>
+                <li><strong>acc</strong> (accompaniment) - Defines the accompaniment pattern using numbers that represent different voices (1=Bass, 2=Tenor, 3=Alto, 4=Soprano). Because the language is designed for blueprints he parser will automatically find 4-voice SATB voice leading for the piece. For example, <code>acc1 @arpeggio_basic</code> applies a predefined arpeggio pattern to the first measure.</li>
+            </ul>
+            
+            <h3>The Metadata</h3>
+            
+            <p>At the top of our Chopin-style nocturne, we see several metadata lines that set up the entire piece:</p>
+            
+            <ul>
+                <li><strong>Composer:</strong> Attributes the piece to a composer (or style)</li>
+                <li><strong>Piece:</strong> Gives the composition a title</li>
+                <li><strong>Time Signature:</strong> Sets the meter (4/4 in this case)</li>
+                <li><strong>Tempo:</strong> Defines the speed (72 beats per minute)</li>
+                <li><strong>Instrument:</strong> Maps voices to MIDI instruments (V1=1 means Voice 1 uses instrument 1, which is piano in General MIDI)</li>
+            </ul>
+            
+            <p>These metadata elements provide a context for the entire piece. However some components can be changed later in the piece, for example the tempo and the Time signature.</p>
+            <p>With these building blocks, Harmonics lets you craft everything from simple melodies to complex orchestral arrangements using a clean, text-based approach that both humans and AI can easily understand.</p>
+            <h3>Let's Parse It and Hear It</h3>
+            
+            <p>One of the most powerful aspects of Harmonics is how easily it can be parsed and converted into actual music. Let's see how this works:</p>
+            
+            <ol>
+                <li><strong>Parsing:</strong> The Harmonics parser reads the text notation and converts it into a structured representation of the music.</li>
+                <li><strong>Interpretation:</strong> The interpreter resolves all musical elements - harmonies (and associated SATB voice leading), melodies, rhythms, and expressions.</li>
+                <li><strong>Rendering:</strong> Finally, the music is rendered as MIDI or audio for playback.</li>
+            </ol>
+            
+            <p>For example, our nocturne snippet above would be processed as follows:</p>
+            
+            <ul>
+                <li>The parser identifies the key (E minor), time signature (4/4), and tempo (72 BPM)</li>
+                <li>It processes each measure's harmonic progression (i → V7 → i → etc.)</li>
+                <li>The parser automatically find 4-voice SATB voice leading for the piece. This can be reused for each measure.</li>
+                <li>The melody and accompaniment patterns are synchronized with the harmony</li>
+                <li>Performance instructions like the crescendo in measure 5 are applied</li>
+            </ul>
+            
+            <p>The result is a fully realized musical performance that captures both the notes and the expressive intent of the composition. You can hear thre rendered midi below:</p>
+            
+            <div class="audio-player">
+                <audio controls>
+                    <source src="../audio/harmonics/chopin_example.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            
+            </section>
+
+			<section>
+				<h2 id="technical-overview">Technical Overview of Harmonics</h2>
+				<p>Harmonics diverges from ABC notation by implementing useful features of a programming language (variables, functions, control flow, etc.) </p>
+				<p>For example, harmonic progressions are clearly defined using Roman numeral notation:</p>
+				<pre><code class="language-ern">m1 b1 C: I b2 V6 b3.5 c: iv[add9]</code></pre>
+				<p>This clarity allows musicians to quickly sketch complex harmonic ideas without ambiguity.</p>
+                <p>This formalism of the harmony is directly inherited from <a href="https://archives.ismir.net/ismir2019/paper/000012.pdf">the RNTXT format</a></p>
+				<p><strong>Syntax Highlighting:</strong> To enhance readability, a dedicated syntax highlighting extension is available for Visual Studio Code. You can install it from the <a href="https://marketplace.visualstudio.com/items?itemName=FlorianGardin.harmonics-lang">Visual Studio Marketplace</a>.</p>
+			</section>
+
+			<section>
+				<h2 id="llm-compatibility">Compatibility with Large Language Models (LLMs)</h2>
+                <p>One cool side effect of the language is that it is very easy to parse and generate with LLMs. </p>
+                <p>We provide many examples of prompt (and associated system prompt) that can be used to generate music with Harmonics.</p>
+                <p>You can find them on the <a href="https://github.com/floriangardin/harmonics/tree/main/system">GitHub repository</a>.</p>
+            
+            </section>
+
+			<section>
+				<h2 id="examples-and-resources">Examples and Resources</h2>
+				<p>Below are some examples demonstrating using Harmonics with LLMs to compose music </p>
+				<p>To generate music with LLMs, we use a specific system prompt that explains the Harmonics language syntax and capabilities to the model. This system prompt provides the model with the necessary context about musical notation, harmony rules, and the specific formatting required by Harmonics. The system prompt acts as a guide, helping the model understand how to properly structure musical ideas in the Harmonics language.</p>
+				<p>This approach allows even models without specific musical training to generate coherent and musically valid compositions. The structured nature of Harmonics makes it particularly well-suited for LLM-based composition, as the language's clear rules and syntax help constrain the model's output to musically sensible results.</p>
+				<table width="100%" border="1">
+					<tr>
+						<th width="30%" style="text-align: center">Prompt</th>
+						<th width="20%" style="text-align: center">Model</th>
+						<th width="50%" style="text-align: center">Generated Audio</th>
+					</tr>
+					<tr>
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">
+							"Write a melancholic piano piece in A minor"
+						</td>
+						<td style="text-align: center">GPT 4.5</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/gpt_romantic.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center">Claude 3.7</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/claude_romantic.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+
+					<tr>
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">
+							"Compose a Bach-style chorale in G major"
+						</td>
+						<td style="text-align: center">GPT 4.5</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/bach_chorale_gpt.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center">Claude 3.7</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/bach_chorale_claude.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+
+					<tr>
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">
+							"Create a jazz progression with walking bass"
+						</td>
+						<td style="text-align: center">GPT 4.5</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/jazz_walking_gpt.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center">Claude 3.7</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/jazz_walking_claude.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+
+					<tr>
+						<td rowspan="2" style="text-align: center; vertical-align: middle;">
+							"Write a classical sonata exposition in D major"
+						</td>
+						<td style="text-align: center">GPT 4.5</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/sonata_exposition_gpt.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+					<tr>
+						<td style="text-align: center">Claude 3.7</td>
+						<td style="text-align: center">
+							<audio controls>
+								<source src="../audio/harmonics/sonata_exposition_claude.mp3" type="audio/mpeg">
+								Your browser does not support the audio element.
+							</audio>
+						</td>
+					</tr>
+				</table>
+				<p>These resources illustrate how easily complex musical ideas can be represented and realized using Harmonics.</p>
+			</section>
+
+			<section>
+				<h2 id="conclusion">Conclusion and Next Steps</h2>
+				<p>Harmonics offers musicians and engineers a powerful tool for music composition, combining ease of use with technical robustness. Its compatibility with LLMs opens exciting possibilities for automated music generation and creative exploration.</p>
+				<p>In our next article, we will compare how different LLMs perform when generating music using Harmonics, providing insights into their strengths and limitations.</p>
+				<p>Stay tuned for more!</p>
+			</section>
+		</article>
+	</main>
+</div>
+
+</body>
+</html>

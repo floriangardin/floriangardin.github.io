@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<meta name="generator" content="Hugo 0.16-DEV" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css">
+<link rel="stylesheet" href="../css/normalize.css">
+<link rel="stylesheet" href="../css/skeleton.css">
+<link rel="stylesheet" href="../css/custom.css">
+<link rel="alternate" href="index.xml" type="application/rss+xml" title="Muzic">
+<link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+<title>MusicLang V2: Generating controllable symbolic Music with song templates</title>
+</head>
+<body>
+
+<div class="container">
+	<header role="banner">
+	</header>
+	<main role="main">
+		<article itemscope itemtype="https://schema.org/BlogPosting">
+            <h1 class="entry-title" itemprop="headline">MusicLang V2 : Controllable symbolic Music generation</h1>
+			<section itemprop="entry-text">
+
+                <h2 id="abstract">Abstract</h2>
+                <p>We introduce the second version of the MusicLang model for controllable symbolic music generation, trained on the <a href="https://colinraffel.com/projects/lmd/">LAKH</a> dataset.
+                 With this model one can control many aspect of the musical composition like chord progression and main characteristic of all instruments and voices of the score.
+                    We demonstrate three use cases of the model as a copilot for music scoring: </p>
+                    <ol>
+                        <li>Generating musical ideas from scratch</li>
+                        <li>Continuing a musical score from a prompt</li>
+                        <li>Generating a musical score from a song template. (The main advantage of our approach)</li>
+                    </ol>
+
+
+                <h2 id="model-architecture">Model Overview</h2>
+
+                <div>
+
+                </div>
+
+                <div style="text-align:center"><img src="../images/musiclang_v2/musiclang_template.png" width=1000 height=1000>
+                    <p>Figure 1: The template conditioned generation scheme</p>
+                </div>
+
+                <p><b>Please note:</b> this work focuses on generating symbolic music, which do not contain timbre information.
+                    We use MuseScore (https://musescore.org/en) to export mp3 files for reference, musicians are encouraged to leverage the .mid files for further timbre improvement.</p>
+
+
+                <h2 id="improvement-with-v1"> Improvement with V1</h2>
+
+                <div>
+                    <p>MusicLang V2 is an improvement over V1 in the following aspects:</p>
+                    <ul>
+                        <li><b>More controllable:</b> We added many different chord figures (M7, min7, 7, sus2, sus4, 7sus2, 7sus4, m7b5, dim7, mM7, aug, augM7) to enrich expression along with the possibility to choose the bass of each chord (using roman numeral notation).
+                        </li>
+                        <li><b>More diverse:</b> While the previous model was trained on a small portion of the LAKH dataset and some midi files from <a href="https://www.vgmusic.com/">VGMusic</a>, we trained this time on the full <a href="https://colinraffel.com/projects/lmd/">LAKH</a> dataset</li>
+                        <li><b>Simpler tokenization:</b> Our new tokenization does not assign instrument part of each voice but will preserve the order of voices of each instrument troughout all the piece. It allows us to save ~20 tokens on the vocabulary</li>
+                        <li><b>Better rhythm quantization:</b> We now support a coherent quantization over sixteenth notes and 3-uplets. as of now</li>
+                    </ul>
+                </div>
+
+
+                <h2 id="song-continuation"> Song continuations baselines</h2>
+
+                <div>
+                    <h3>Group 1</h3>
+                    <table width="100%" border="1">
+                        <p><b>File description :</b> A piano piece written by bach</p>
+                        <table width="100%" border="1">
+                            <tr>
+                                <th width="30%" style="text-align: left" scope="col">Original file</th>
+                                <th width="30%" style="text-align: left" scope="col">MusicLang-4K-V1</th>
+                                <th width="30%" style="text-align: left" scope="col">MusicLang-4K-V2</th>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musiclang_v2/continuation/bach_847_prompt.mid" autoplay="">Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musiclang_v2/continuation/bach_847_prompt.mid" autoplay="">Your browser does not support the audio element.
+                                    </audo>
+                                </td>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musiclang_v2/continuation/bach_847_generated_v2_1.mid" autoplay="">Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                            </tr>
+                        </table>
+                        <p><b>Comments:</b></p>
+                        <p>V1: Some developments are happening</p>
+                        <p>V2: Here, letting the model completely free, we got a nice harmonic progression transitionning from minor to major. Also a flute melody appears along the way </p>
+                    </table>
+
+                    <hr>
+                </div>
+
+
+
+                <h2 id="template-generation"> Template generation baselines</h2>
+
+                <div>
+                    <h3>Group 1</h3>
+                    <table width="100%" border="1">
+                        <p><b>File description :</b> A piano piece written by bach</p>
+                        <table width="100%" border="1">
+                            <tr>
+                                <th width="30%" style="text-align: left" scope="col">Original file</th>
+                                <th width="30%" style="text-align: left" scope="col">MusicLang-4K-V1</th>
+                                <th width="30%" style="text-align: left" scope="col">MusicLang-4K-V2</th>
+                            </tr>
+                            <tr>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musecoco/Baseline/BART/307_0.mp3" autoplay="">Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musecoco/Baseline/GPT4/307_1.mp3" autoplay="">Your browser does not support the audio element.
+                                    </audo>
+                                </td>
+                                <td width="30%" style="text-align: left">
+                                    <audio controls="controls">
+                                        <source src="../audio/musecoco/Baseline/MuseCoco/307_group307_s2.mp3" autoplay="">Your browser does not support the audio element.
+                                    </audio>
+                                </td>
+                            </tr>
+                        </table>
+                        <p><b>Comments:</b></p>
+                        <p>GPT-4: The generated music from GPT-4 is controlled well. However, it tends to sound monotonous since the rhythm patterns lack of variations, which is common in most generated music from GPT-4. Furthermore, some counterpoints in the composition, specifically in the 4th and 10th bars, lack well-designed integration, detracting from the overall quality of the piece.</p>
+                        <p>MuseCoco: The generated music from MuseCoco is controlled precisely. Besides, it has more complex harmonies and more diverse rhythm patterns for a better listening experience.</p>
+                    </table>
+
+                    <hr>
+                </div>
+
+
+			</section>
+		</article>
+	</main>
+
+</div>
+
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-139981676-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+         HTML: ["input/TeX","output/HTML-CSS"],
+         TeX: {
+                Macros: {
+                         bm: ["\\boldsymbol{#1}", 1],
+                         argmax: ["\\mathop{\\rm arg\\,max}\\limits"],
+                         argmin: ["\\mathop{\\rm arg\\,min}\\limits"]},
+                extensions: ["AMSmath.js","AMSsymbols.js"],
+                equationNumbers: { autoNumber: "AMS" } },
+         extensions: ["tex2jax.js"],
+         jax: ["input/TeX","output/HTML-CSS"],
+         tex2jax: { inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true },
+         "HTML-CSS": { availableFonts: ["TeX"],
+                       linebreaks: { automatic: true } }
+     });
+ </script>
+
+ <script type="text/x-mathjax-config">
+     MathJax.Hub.Config({
+       tex2jax: {
+         skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+       }
+     });
+ </script>
+
+ <script type="text/javascript" async
+   src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML">
+ </script>
+
+
+
+
+</body>
+</html>
