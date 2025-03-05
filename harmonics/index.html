@@ -26,12 +26,12 @@
 		<article itemscope itemtype="https://schema.org/BlogPosting">
 			<section itemprop="entry-text">
 				<h2 id="introduction">Introduction to Harmonics</h2>
-				<p>The Harmonics musical language, is a powerful yet intuitive domain-specific language designed for musicians and composers. It simplifies the process of composing music by providing clear, concise syntax for harmony, melody, and accompaniment.</p>
-				<p>It is designed to be:</p>
+				<p><i>Harmonics</i> is a domain-specific language designed for quick blueprinting of musical compositions. It is a fully featured programming language for symbolic music.</p>
+				<p>It is at the core:</p>
                 <ul>
-					<li>🎵 Easy to learn and use for musicians</li>
-					<li>🎹 Rich expressive capabilities for detailed musical compositions</li>
-					<li>🤖 Highly compatible with Large Language Models (LLMs) to enable a compositional assistance</li>
+					<li>🎵 Is easy for sketching a piece quickly</li>
+					<li>🎹 Has rich expressive capabilities for detailed musical compositions</li>
+					<li>🤖 Compatible with Large Language Models (LLMs) to enable "compositional assistance"</li>
                     <li>🎼 Able to output both MIDI and MusicXML files.</li>
 				</ul>
 				<p>This article will allow us to explore the core language and its capabilities.</p>
@@ -46,7 +46,7 @@ Time Signature: 4/4
 Tempo: 72
 
 // We use GM piano everywhere
-Instrument: V1=1, B=1, T=1, A=1, S=1
+Instrument: V1=piano, V2=piano
 
 // Define an arpeggiated accompaniment pattern
 arpeggio_basic = b1 1 b1.5 3 b1.75 4 b2 3 b2.5 1 b3 3 b3.5 4 b3.75 3 b4 1 b4.5 3 b4.75 4
@@ -59,24 +59,24 @@ e1 b1 tempo(72) b1 velocity(mp)
 // Main Theme - First measure
 m1 b1 e: i b3 V7 ||
 mel1 V1 b1 B4 b2 E5 b2.5 F#5 b3 G5 b3.25 A5 b3.5 B5 b4 G5
-acc1 @arpeggio_basic
+acc1 V2 @arpeggio_basic
 
 m2 b1 i b3 VI b4 ii%7 ||
 mel2 V1 b1 E5 b1.5 F#5 b2 G5 b2.5 F#5 b3 C6 b3.5 B5 b4 A5
-acc2 @arpeggio_basic
+acc2 V2@arpeggio_basic
 
 m3 b1 V b3 i6 ||
 mel3 V1 b1 B5 b1.5 A5 b2 F#5 b2.5 D#5 b3 G5 b3.5 F#5 b4 E5
-acc3 @arpeggio_var1
+acc3 V2 @arpeggio_var1
 
 m4 b1 iv b3 V7 b4 i ||
 mel4 V1 b1 A5 b1.5 G5 b2 F#5 b2.5 E5 b3 B5 b3.5 D5 b4 E5
-acc4 @arpeggio_var2
+acc4 V2 @arpeggio_var2
 
 e5 b1 start_crescendo(p) b4 end_crescendo(ff)
 m5 b1 III b3 VI ||
 mel5 V1 b1 G5 b1.5 B5 b2 D6 b2.5 B5 b3 C6 b3.5 B5 b4 A5
-acc5 @block_chords
+acc5 V2 @block_chords
 
 </code></pre>
             <p>Wow, it looks complex, let's break it down.</p>
@@ -105,19 +105,11 @@ acc5 @block_chords
             </ul>
             
             <p>These metadata elements provide a context for the entire piece. However some components can be changed later in the piece, for example the tempo and the Time signature.</p>
-            <p>With these building blocks, Harmonics lets you craft everything from simple melodies to complex orchestral arrangements using a clean, text-based approach that both humans and AI can easily understand.</p>
+            <p>With these building blocks, <i>Harmonics</i> lets you craft everything from simple melodies to complex orchestral arrangements using a clean, text-based approach that both humans and AI can easily understand.</p>
             <h3>Let's Parse It and Hear It</h3>
             
             <p>One of the most powerful aspects of Harmonics is how easily it can be parsed and converted into actual music. Let's see how this works:</p>
-            
-            <ol>
-                <li><strong>Parsing:</strong> The Harmonics parser reads the text notation and converts it into a structured representation of the music.</li>
-                <li><strong>Interpretation:</strong> The interpreter resolves all musical elements - harmonies (and associated SATB voice leading), melodies, rhythms, and expressions.</li>
-                <li><strong>Rendering:</strong> Finally, the music is rendered as MIDI or audio for playback.</li>
-            </ol>
-            
             <p>For example, our nocturne snippet above would be processed as follows:</p>
-            
             <ul>
                 <li>The parser identifies the key (E minor), time signature (4/4), and tempo (72 BPM)</li>
                 <li>It processes each measure's harmonic progression (i → V7 → i → etc.)</li>
@@ -126,7 +118,7 @@ acc5 @block_chords
                 <li>Performance instructions like the crescendo in measure 5 are applied</li>
             </ul>
             
-            <p>The result is a fully realized musical performance that captures both the notes and the expressive intent of the composition. You can hear thre rendered midi below:</p>
+            <p>The result is a fully realized musical performance that captures both the notes and the expressive intent of the composition. You can hear the rendered midi below:</p>
             
             <div class="audio-player">
                 <audio controls>
@@ -138,12 +130,11 @@ acc5 @block_chords
             </section>
 
 			<section>
-				<h2 id="technical-overview">Technical Overview of Harmonics</h2>
-				<p>Harmonics diverges from ABC notation by implementing useful features of a programming language (variables, functions, control flow, etc.) </p>
-				<p>For example, harmonic progressions are clearly defined using Roman numeral notation:</p>
+				<h2 id="technical-overview">Is it different from ABC notation ?</h2>
+				<p><i>Harmonics</i> diverges from ABC notation by implementing standard features of a programming language (variables, functions, control flow, etc.). It's not just text notation, it's an interpreted language.</p>
+				<p>It's also oriented to sketch tonal music easily.</p>
 				<pre><code class="language-ern">m1 b1 C: I b2 V6 b3.5 c: iv[add9]</code></pre>
-				<p>This clarity allows musicians to quickly sketch complex harmonic ideas without ambiguity.</p>
-                <p>This formalism of the harmony is directly inherited from <a href="https://archives.ismir.net/ismir2019/paper/000012.pdf">the RNTXT format</a></p>
+				<p>This notation allows musicians to quickly sketch complex harmonic ideas without ambiguity. The formalism is directly inherited from <a href="https://archives.ismir.net/ismir2019/paper/000012.pdf">the RNTXT format</a></p>
 				<p><strong>Syntax Highlighting:</strong> To enhance readability, a dedicated syntax highlighting extension is available for Visual Studio Code. You can install it from the <a href="https://marketplace.visualstudio.com/items?itemName=FlorianGardin.harmonics-lang">Visual Studio Marketplace</a>.</p>
 			</section>
 
@@ -190,7 +181,9 @@ acc5 @block_chords
 
 					<tr>
 						<td rowspan="2" style="text-align: center; vertical-align: middle;">
-							"Compose a Bach-style chorale in G major"
+							"Compose a beethoven symphony overture in C minor, 24 bars. 
+                            It should be heroic with a lot of intricate orchestration patterns and complex rhythms. 
+                            The melody starts at the 8th bar and has a dramatic character."
 						</td>
 						<td style="text-align: center">GPT 4.5</td>
 						<td style="text-align: center">
@@ -204,7 +197,7 @@ acc5 @block_chords
 						<td style="text-align: center">Claude 3.7</td>
 						<td style="text-align: center">
 							<audio controls>
-								<source src="../audio/harmonics/bach_chorale_claude.mp3" type="audio/mpeg">
+								<source src="../audio/harmonics/claude_beethoven.mp3" type="audio/mpeg">
 								Your browser does not support the audio element.
 							</audio>
 						</td>
@@ -212,7 +205,7 @@ acc5 @block_chords
 
 					<tr>
 						<td rowspan="2" style="text-align: center; vertical-align: middle;">
-							"Create a jazz progression with walking bass"
+							"Compose a piano trio that could have been composed by Cesar Franck, typical french romantic style. Develop a main melodic theme with a rich accompaniment, use clever rhythm syncopation and expressions. 24 bars."
 						</td>
 						<td style="text-align: center">GPT 4.5</td>
 						<td style="text-align: center">
@@ -226,7 +219,7 @@ acc5 @block_chords
 						<td style="text-align: center">Claude 3.7</td>
 						<td style="text-align: center">
 							<audio controls>
-								<source src="../audio/harmonics/jazz_walking_claude.mp3" type="audio/mpeg">
+								<source src="../audio/harmonics/claude_piano_trio.mp3" type="audio/mpeg">
 								Your browser does not support the audio element.
 							</audio>
 						</td>
